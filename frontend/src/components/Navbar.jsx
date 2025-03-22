@@ -24,12 +24,15 @@ const Navbar = () => {
     { to: "about", label: "About" },
     { to: "events", label: "Events" },
     { to: "schedule", label: "Schedule" },
-    { to: "contact", label: "Contact" }
+    { to: "contact", label: "Contact" },
+    { to: "rulebook", label: "RuleBook", pdfPath: "/pdfs/RuleBook.pdf" },
   ];
 
   // Function to handle navigation and scrolling
-  const handleNavClick = (to) => {
-    if (isHome) {
+  const handleNavClick = (to, pdfPath) => {
+    if (pdfPath) {
+      window.open(pdfPath, '_blank');
+    } else if (isHome) {
       scroller.scrollTo(to, {
         smooth: true,
         duration: 500,
@@ -64,19 +67,16 @@ const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate("/")}
           >
-            <div className="relative w-8 h-8">
-              <div className="absolute inset-0 bg-[#2606AA] rounded-full transform rotate-45"></div>
-              <Calendar className="w-8 h-8 text-white relative z-10" />
-            </div>
+            <img src="/favicon-1.png" alt="Logo" className="w-8 h-8" />
             <span className="text-2xl font-comic text-[#2606AA]">CATALYSIS</span>
           </motion.div>
 
           {/* Centered Navigation Items */}
-          <div className="hidden md:flex items-center justify-center space-x-12 p-2 flex-1">
+          <div className="hidden md:flex font-comic items-center justify-center space-x-12 p-2 flex-1">
             {navItems.map((item) => (
               <button
+                onClick={() => handleNavClick(item.to, item.pdfPath)}
                 key={item.to}
-                onClick={() => handleNavClick(item.to)}
                 className="text-[#2606AA] hover:text-[#ff1f53] text-lg relative group cursor-pointer"
               >
                 {item.label}
@@ -90,7 +90,7 @@ const Navbar = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 bg-[#2606AA] text-white rounded-lg font-bold shadow-comic flex items-center"
+              className="px-4 py-2 bg-[#2606AA] text-white rounded-lg font-comic font-bold shadow-comic flex items-center"
               onClick={() => navigate("/register")}
             >
               Register <ChevronRight className="w-4 h-4 ml-1" />
