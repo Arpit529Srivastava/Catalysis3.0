@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Code,
@@ -21,12 +21,11 @@ const EventCard = ({
   icon,
   delay,
   pdfLink,
-  isExpanded,
   onClick,
 }) => {
   return (
     <div
-      className="relative border-4 border-black bg-white p-8 rounded-2xl border-r-8 border-b-8 transition-transform transform hover:scale-105 hover:shadow-2xl duration-300 ease-out"
+      className="relative border-4 border-black bg-white p-8 rounded-2xl border-r-8 border-b-8 mb-8 transition-transform transform hover:scale-105 hover:shadow-2xl duration-300 ease-out"
       data-aos="fade-up"
       data-aos-delay={delay}
     >
@@ -50,20 +49,8 @@ const EventCard = ({
             className="bg-[#00237A] text-white px-4 py-2 rounded-lg cursor-pointer transition-transform duration-300 transform group-hover:scale-110"
             onClick={onClick}
           >
-            {isExpanded ? "Close Rulebook" : "View Rulebook"}
+            View Rulebook
           </button>
-          
-        </div>
-      )}
-
-      {/* Display PDF */}
-      {isExpanded && (
-        <div className="mt-4 w-full h-[500px] border border-gray-300 rounded-lg overflow-hidden">
-          <iframe
-            src={pdfLink}
-            className="w-full h-full"
-            title="Rulebook PDF"
-          ></iframe>
         </div>
       )}
 
@@ -93,7 +80,6 @@ EventCard.propTypes = {
   icon: PropTypes.element.isRequired,
   delay: PropTypes.string.isRequired,
   pdfLink: PropTypes.string.isRequired,
-  isExpanded: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
@@ -107,12 +93,6 @@ export function Events() {
       });
     }
   }, []);
-
-  const [expandedEvent, setExpandedEvent] = useState(null);
-
-  const handleEventClick = (index) => {
-    setExpandedEvent(expandedEvent === index ? null : index);
-  };
 
   const events = [
     {
@@ -171,6 +151,10 @@ export function Events() {
     },
   ];
 
+  const handleEventClick = (pdfLink) => {
+    window.open(pdfLink, "_blank");
+  };
+
   return (
     <div className="min-h-screen p-8 font-comic" id="events">
       <h1
@@ -180,26 +164,20 @@ export function Events() {
         EPIC EVENTS
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
+      {/* Grid Container */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {events.map((event, index) => (
-          <div
+          <EventCard
             key={index}
-            className={`transition-all duration-300 ease-out ${
-              expandedEvent === index ? "row-span-2" : "row-span-1"
-            }`}
-          >
-            <EventCard
-              title={event.title}
-              description={event.description}
-              date={event.date}
-              time={event.time}
-              icon={event.icon}
-              delay={event.delay}
-              pdfLink={event.pdfLink}
-              isExpanded={expandedEvent === index}
-              onClick={() => handleEventClick(index)}
-            />
-          </div>
+            title={event.title}
+            description={event.description}
+            date={event.date}
+            time={event.time}
+            icon={event.icon}
+            delay={event.delay}
+            pdfLink={event.pdfLink}
+            onClick={() => handleEventClick(event.pdfLink)}
+          />
         ))}
       </div>
     </div>

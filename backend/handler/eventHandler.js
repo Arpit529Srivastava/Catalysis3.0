@@ -1,5 +1,6 @@
 const Registration = require('../model/event');
 const sendEmail = require('./emailSender');
+const path = require('path');
 
 exports.registerForEvent = async (req, res) => {
   try {
@@ -24,7 +25,10 @@ exports.registerForEvent = async (req, res) => {
 
     await newRegistration.save();
 
-    // Send confirmation email
+    // Respond to the client immediately
+    res.status(201).json({ message: 'Registration successful!', data: newRegistration });
+
+    // Send confirmation email asynchronously (after response is sent)
     const subject = 'Catalysis v3 Registration Confirmation';
 
     const text = `Hello ${name},
@@ -37,9 +41,9 @@ Thank you for joining us! Stay tuned to our Instagram page (@genesis.ise) for fu
 
 For any queries, feel free to contact us via this email, our Instagram page or visit the registration desks.
 
-Please check the attached PDFs for rulebook and code of conduct.
+Please check the attached PDFs for Rulebook, Code of Conduct and Terms and Conditions.
 
-Looking forward to an amazing event with you!
+Looking forward to an amazing event with you! :)
 
 Team Genesis`;
 
@@ -60,25 +64,27 @@ Team Genesis`;
 
   <p><strong>Team Genesis</strong></p>
 `;
+    // Fix attachment paths to use path.join for proper cross-platform compatibility
     const attachments = [
       {
-        filename: 'Code-of-conduct',
-        path: 'Catalysis3.0/backend/handler/Code of Conduct.pdf' 
+        filename: 'Rulebook.pdf',
+        path: path.join(__dirname, 'RuleBook_final.pdf')
       },
       {
-        filename: 'Rulebook',
-        path: 'Catalysis3.0/backend/handler/RuleBook_final.pdf' 
+        filename: 'Code-of-conduct.pdf',
+        path: path.join(__dirname, 'Code of Conduct.pdf')
       },
       {
-        filename: 'Terms-and-conditions',
-        path: 'Catalysis3.0/backend/handler/Terms and Conditions.pdf'
+        filename: 'Terms-and-conditions.pdf',
+        path: path.join(__dirname, 'Terms and Conditions.pdf')
       }
     ];
 
-    // Pass attachments to the sendEmail function
-    await sendEmail(email, subject, text, html, attachments);
-
-    res.status(201).json({ message: 'Registration successful!', data: newRegistration });
+    // Send email asynchronously (don't await)
+    sendEmail(email, subject, text, html, attachments)
+      .then(() => console.log('Email sent successfully with attachments'))
+      .catch(emailError => console.error('Failed to send email:', emailError));
+      
   } catch (error) {
     res.status(500).json({ error: 'Failed to register for the event', details: error.message });
   }
