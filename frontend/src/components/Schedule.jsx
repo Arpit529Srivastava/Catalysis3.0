@@ -6,46 +6,46 @@ export const Schedule = () => {
   const scheduleData = [
     {
       id: 1,
-      srNo: "#1",
-      time: "11:30 AM-1:30 PM",
-      event: "Coding Relay",
-      date: "28/03/2022",
+      srNo: "#4",
+      time: "11:00 AM-Till End",
+      event: "TypeMaster",
+      date: "28th & 29th March'25 ",
       venue: "ISE Dept",
       color: "red",
     },
     {
       id: 2,
+      srNo: "#1",
+      time: "11:30 AM-1:30 PM",
+      event: "Coding Relay",
+      date: "28th March'25",
+      venue: "ISE Dept",
+      color: "red",
+    },
+    {
+      id: 3,
       srNo: "#2",
       time: "11:00 AM-4:00 PM",
       event: "Code Red",
-      date: "28/03/2022",
+      date: "28th March'25",
       venue: "ISE Dept",
       color: "purple",
     },
     {
-      id: 3,
+      id: 4,
       srNo: "#3",
       time: "2:00 PM-4:00 PM",
       event: "DSA Smackdown",
-      date: "28/03/2025",
+      date: "28th March'25",
       venue: "ISE Dept",
       color: "green",
-    },
-    {
-      id: 4,
-      srNo: "#4",
-      time: "11:00 AM-3:00 PM",
-      event: "TypeMaster",
-      date: "29/03/2025",
-      venue: "ISE Dept",
-      color: "red",
     },
     {
       id: 5,
       srNo: "#5",
       time: "10:00 PM-2:00 PM",
       event: "UI/UX design",
-      date: "29/03/2025",
+      date: "29th March'25",
       venue: "ISE Dept",
       color: "purple",
     },
@@ -54,7 +54,7 @@ export const Schedule = () => {
       srNo: "#6",
       time: "11:00 AM-3:00 PM",
       event: "Technoseek",
-      date: "29/03/2025",
+      date: "29th March'25",
       venue: "ISE Dept",
       color: "green",
     },
@@ -63,7 +63,7 @@ export const Schedule = () => {
       srNo: "#7",
       time: "10:00 AM-3:00 PM",
       event: "Code Red",
-      date: "29/03/2025",
+      date: "29th March'25",
       venue: "ISE Dept",
       color: "purple",
     },
@@ -82,13 +82,13 @@ export const Schedule = () => {
   const getTextColor = (color) => {
     switch (color) {
       case "red":
-        return "text-[#e94a64]";
+        return "text-[#6b5de9]";
       case "purple":
         return "text-[#6b5de9]";
       case "green":
-        return "text-[#4aca8c]";
+        return "text-[#6b5de9]";
       default:
-        return "text-[#e94a64]";
+        return "text-[#6b5de9]";
     }
   };
 
@@ -97,16 +97,16 @@ export const Schedule = () => {
       case "red":
         return "bg-[#ffe8ec]";
       case "purple":
-        return "bg-[#eeeaff]";
+        return "bg-[#ffe8ec]";
       case "green":
-        return "bg-[#e8fff0]";
+        return "bg-[#ffe8ec]";
       default:
         return "bg-[#ffe8ec]";
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center animate-fadeIn" id="schedule">
+    <div className="max-h-screen flex flex-col mb-8 items-center animate-fadeIn" id="schedule">
       <h1 className="text-white text-6xl font-comic mb-4 md:mb-4 tracking-wide animate-bounce-slow">
         SCHEDULE
       </h1>
@@ -143,15 +143,16 @@ export const Schedule = () => {
                 </td>
                 <td className="py-2 md:py-5 px-2 md:px-4 text-center">
                   <span
-                    className={`px-3 md:px-6 py-2 rounded-full ${getBgColor(
+                    className={`px-3 md:px-6 py-2 rounded-full w-[100px] md:w-[150px] inline-block text-center ${getBgColor(
                       item.color
                     )} ${getTextColor(
                       item.color
-                    )} hover:shadow-md transition-all duration-300 inline-block hover:scale-105 text-sm md:text-base`}
+                    )} hover:shadow-md transition-all duration-300 hover:scale-105 text-sm md:text-base`}
                   >
                     {item.event}
                   </span>
                 </td>
+
                 <td
                   className={`py-2 md:py-5 px-2 md:px-4 font-medium text-center text-sm md:text-base ${getTextColor(
                     item.color

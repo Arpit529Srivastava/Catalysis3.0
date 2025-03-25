@@ -125,7 +125,7 @@ export function Events() {
     {
       title: "TYPEMASTER",
       description: "Show off your typing speed and accuracy in this fast-paced competition.",
-      date: "March 29",
+      date: "March 28 & 29",
       time: "11:00 AM",
       icon: <Keyboard size={40} />,
       delay: "600",
