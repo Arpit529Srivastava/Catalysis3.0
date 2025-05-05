@@ -1,4 +1,4 @@
-const mongoos = require("mongoose");
+const mongoose = require("mongoose");
 
 // events available
 const events = [
@@ -38,23 +38,31 @@ const engineering_departments = [
 ];
 
 // database schema
-const eventSchema = new mongoos.Schema(
+const eventSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
+      trim: true
     },
     usn: {
       type: String,
       required: true,
+      uppercase: true,
+      trim: true,
+      unique: true,
     },
     phone: {
       type: String,
       required: true,
+      trim: true
     },
     email: {
       type: String,
       required: true,
+      lowercase: true,
+      trim: true,
+      unique: true,
     },
     semester: {
       type: Number,
@@ -70,6 +78,12 @@ const eventSchema = new mongoos.Schema(
       type: [String],
       enum: events,
       required: true,
+      validate: {
+        validator: function(v) {
+          return v.length > 0; // Ensure at least one event is selected
+        },
+        message: 'At least one event must be selected'
+      }
     },
   },
   {
@@ -77,4 +91,4 @@ const eventSchema = new mongoos.Schema(
   }
 );
 
-module.exports = mongoos.model("Event", eventSchema);
+module.exports = mongoose.model("Event", eventSchema);
